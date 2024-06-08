@@ -11,7 +11,7 @@ import static com.onsystem.pantheon.authorizationserver.Constans.SCHEME_AUTHORIZ
 @Getter
 @Setter
 @Entity
-@Table(schema = SCHEME_AUTHORIZATION,name = "oauth2_authorization_methods")
+@Table(schema = SCHEME_AUTHORIZATION, name = "oauth2_authorization_methods")
 public class Oauth2AuthorizationMethod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

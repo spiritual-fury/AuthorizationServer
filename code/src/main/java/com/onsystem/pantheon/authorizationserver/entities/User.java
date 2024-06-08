@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 
@@ -49,7 +49,6 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @CreatedDate
     @NotNull
     @Column(name = "high_date", nullable = false)
     private Instant highDate;

@@ -36,7 +36,6 @@ public class Application {
     @Column(name = "high_date", nullable = false)
     private Instant highDate;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "high_id_user", nullable = false)
     private User highIdUser;

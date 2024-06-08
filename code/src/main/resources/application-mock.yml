@@ -1,11 +1,13 @@
-mock: true
+auth:
+  mock: true
 
 spring:
   datasource:
-    url: jdbc:h2:mem:management;INIT=CREATE SCHEMA IF NOT EXISTS public\;CREATE SCHEMA IF NOT EXISTS applications\;CREATE SCHEMA IF NOT EXISTS users\;CREATE SCHEMA IF NOT EXISTS enterprise
+    url: jdbc:h2:mem:management;INIT=CREATE SCHEMA IF NOT EXISTS public\;CREATE SCHEMA IF NOT EXISTS applications\;CREATE SCHEMA IF NOT EXISTS users\;CREATE SCHEMA IF NOT EXISTS enterprise\;CREATE SCHEMA IF NOT EXISTS "authorization"
     driverClassName: org.h2.Driver
     username: postgres
     password: postgres
+
   h2:
     console:
       enabled: true

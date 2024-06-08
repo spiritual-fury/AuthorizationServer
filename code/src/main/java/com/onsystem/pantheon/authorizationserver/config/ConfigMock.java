@@ -1,5 +1,6 @@
 package com.onsystem.pantheon.authorizationserver.config;
 
+import com.onsystem.pantheon.authorizationserver.ifc.IAuthorizationServerSettingsService;
 import com.onsystem.pantheon.authorizationserver.services.MockAuthorizationServerSettingsService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +9,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +20,6 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
-import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -30,7 +29,7 @@ import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import java.util.UUID;
 
 @Configuration
-@ConditionalOnProperty(name = "mock", havingValue = "true")
+@ConditionalOnProperty(name = "auth.mock", havingValue = "true")
 public class ConfigMock {
     @Bean
     @Order(1)
@@ -100,7 +99,7 @@ public class ConfigMock {
     }
 
     @Bean
-    public MockAuthorizationServerSettingsService mockAuthorizationServerSettingsService(){
+    public IAuthorizationServerSettingsService mockAuthorizationServerSettingsService() {
         return new MockAuthorizationServerSettingsService();
     }
 

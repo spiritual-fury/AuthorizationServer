@@ -17,6 +17,6 @@ public class Oauth2AuthorizationPostLogoutRedirectUris {
     @MapsId("id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id", nullable = false)
-    private Oauth2RegisteredClient id1;
+    private Oauth2RegisteredClient oauth2RegisteredClient;
 
 }
