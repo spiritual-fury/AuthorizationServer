@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS users."user"
     delete_date    timestamp,
     delete_id_user integer references users.user (id_user),
     CONSTRAINT user_pk PRIMARY KEY (id_user)
-    );
+);
 
 CREATE TABLE IF NOT EXISTS applications.application
 (
