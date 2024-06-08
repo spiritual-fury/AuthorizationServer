@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: Authorization-Server
+  profiles:
+    active: mock
 logging:
   level:
     root: info

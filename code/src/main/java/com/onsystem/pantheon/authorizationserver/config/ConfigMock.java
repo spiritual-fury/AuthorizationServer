@@ -1,5 +1,7 @@
-package com.onsystem.pantheon.authorizationserver;
+package com.onsystem.pantheon.authorizationserver.config;
 
+import com.onsystem.pantheon.authorizationserver.services.MockAuthorizationServerSettingsService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -28,8 +30,8 @@ import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import java.util.UUID;
 
 @Configuration
-@EnableWebSecurity
-public class AuthorizationConfig {
+@ConditionalOnProperty(name = "mock", havingValue = "true")
+public class ConfigMock {
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
@@ -97,10 +99,9 @@ public class AuthorizationConfig {
         return new InMemoryRegisteredClientRepository(oidcClient);
     }
 
-
-
     @Bean
-    public AuthorizationServerSettings authorizationServerSettings() {
-        return AuthorizationServerSettings.builder().build();
+    public MockAuthorizationServerSettingsService mockAuthorizationServerSettingsService(){
+        return new MockAuthorizationServerSettingsService();
     }
+
 }
