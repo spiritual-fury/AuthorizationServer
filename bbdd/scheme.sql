@@ -139,3 +139,16 @@ create table "authorization".oauth2_registered_client_authorization_grant_types
     constraint registered_client_authorization_grant_types_pk PRIMARY KEY (oauth2_registered_client_id, authorization_grant_types_id)
 );
 
+create table "authorization".scope
+(
+    id   serial,
+    name varchar(255),
+    PRIMARY KEY (id)
+);
+
+create table "authorization".oauth2_registered_client_scopes
+(
+    id_registered_client int references management."authorization".oauth2_registered_client (id) NOT NULL,
+    id_scope             int references management."authorization".scope (id)                    NOT NULL,
+    PRIMARY KEY (id_registered_client, id_scope)
+)
