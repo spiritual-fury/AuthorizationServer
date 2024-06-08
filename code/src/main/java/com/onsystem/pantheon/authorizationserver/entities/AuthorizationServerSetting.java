@@ -7,10 +7,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
+import static com.onsystem.pantheon.authorizationserver.Constans.SCHEME_AUTHORIZATION;
+
 @Getter
 @Setter
 @Entity
-@Table(name = "authorization_server_settings")
+@Table(schema = SCHEME_AUTHORIZATION, name = "authorization_server_settings")
 public class AuthorizationServerSetting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

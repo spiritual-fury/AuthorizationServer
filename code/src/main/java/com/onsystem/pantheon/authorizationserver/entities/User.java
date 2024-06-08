@@ -5,14 +5,16 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.Instant;
+
+import static com.onsystem.pantheon.authorizationserver.Constans.SCHEME_USER;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "\"user\"", uniqueConstraints = {
+@Table(schema = SCHEME_USER, name = "\"user\"", uniqueConstraints = {
         @UniqueConstraint(name = "user_email_key", columnNames = {"email"}),
         @UniqueConstraint(name = "user_login_key", columnNames = {"login"})
 })
@@ -47,6 +49,7 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @CreatedDate
     @NotNull
     @Column(name = "high_date", nullable = false)
     private Instant highDate;

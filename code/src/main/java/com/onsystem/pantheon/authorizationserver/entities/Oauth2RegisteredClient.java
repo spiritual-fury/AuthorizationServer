@@ -9,10 +9,12 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 
+import static com.onsystem.pantheon.authorizationserver.Constans.SCHEME_AUTHORIZATION;
+
 @Getter
 @Setter
 @Entity
-@Table(name = "oauth2_registered_client")
+@Table(schema = SCHEME_AUTHORIZATION,name = "oauth2_registered_client")
 public class Oauth2RegisteredClient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
