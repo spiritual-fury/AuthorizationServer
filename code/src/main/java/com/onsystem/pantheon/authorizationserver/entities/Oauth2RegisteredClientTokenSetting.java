@@ -4,14 +4,15 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
+import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
 
 import static com.onsystem.pantheon.authorizationserver.Constans.SCHEME_AUTHORIZATION;
 
 @Getter
 @Setter
 @Entity
-@Table(schema = SCHEME_AUTHORIZATION,name = "oauth2_registered_client_token_settings")
+@Table(schema = SCHEME_AUTHORIZATION, name = "oauth2_registered_client_token_settings")
 public class Oauth2RegisteredClientTokenSetting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,16 +38,10 @@ public class Oauth2RegisteredClientTokenSetting {
     @Column(name = "refresh_token_time_to_live", nullable = false)
     private Double refreshTokenTimeToLive;
 
-/*
- TODO [Reverse Engineering] create field to map the 'access_token_format' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
     @Column(name = "access_token_format", columnDefinition = "oauth2_token_format not null")
-    private Object accessTokenFormat;
-*/
-/*
- TODO [Reverse Engineering] create field to map the 'id_token_signature_algorithm' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
+    private OAuth2TokenFormat accessTokenFormat;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "id_token_signature_algorithm", columnDefinition = "signature_algorithm not null")
-    private Object idTokenSignatureAlgorithm;
-*/
+    private SignatureAlgorithm idTokenSignatureAlgorithm;
 }

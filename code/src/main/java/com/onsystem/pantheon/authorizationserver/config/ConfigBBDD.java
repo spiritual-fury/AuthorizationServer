@@ -1,5 +1,7 @@
 package com.onsystem.pantheon.authorizationserver.config;
 
+import com.onsystem.pantheon.authorizationserver.ifc.IAuthorizationServerSettingsService;
+import com.onsystem.pantheon.authorizationserver.mapper.AMapperRegisteredClient;
 import com.onsystem.pantheon.authorizationserver.repositories.AuthorizationSettingsRepository;
 import com.onsystem.pantheon.authorizationserver.repositories.Oauth2RegisteredRepository;
 import com.onsystem.pantheon.authorizationserver.services.AuthorizationServerSettingsService;
@@ -16,17 +18,20 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 @ConditionalOnProperty(name = "auth.mock", havingValue = "false")
 public class ConfigBBDD {
 
-    @Value("{auth.configurationSettingsId}")
+    @Value("${auth.configurationSettingsId}")
     private Integer configurationAuthorizationSettingsId;
 
     @Bean
-    public AuthorizationServerSettingsService authorizationServerSettingsService(AuthorizationSettingsRepository authorizationSettingsRepository) {
+    public IAuthorizationServerSettingsService authorizationServerSettingsService(AuthorizationSettingsRepository authorizationSettingsRepository) {
         return new AuthorizationServerSettingsService(configurationAuthorizationSettingsId, authorizationSettingsRepository);
     }
 
     @Bean
-    public RegisteredClientRepository registeredClientRepository(Oauth2RegisteredRepository oauth2RegisteredRepository) {
-        return new RegisteredClientService(oauth2RegisteredRepository);
+    public RegisteredClientRepository registeredClientRepository(
+            Oauth2RegisteredRepository oauth2RegisteredRepository,
+            AMapperRegisteredClient aMapperRegisteredClient
+    ) {
+        return new RegisteredClientService(oauth2RegisteredRepository, aMapperRegisteredClient);
     }
 
     @Bean

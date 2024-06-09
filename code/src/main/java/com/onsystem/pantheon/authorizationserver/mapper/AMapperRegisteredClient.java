@@ -1,6 +1,7 @@
 package com.onsystem.pantheon.authorizationserver.mapper;
 
 import com.onsystem.pantheon.authorizationserver.entities.Oauth2RegisteredClient;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,8 @@ public abstract class AMapperRegisteredClient {
     private IMapperAuthorizationGrandType iMapperAuthorizationGrandType;
     @Autowired
     private IMapperClientSettings iMapperClientSettings;
-
+    @Autowired
+    private IMapperScope iMapperScope;
 
 
 
@@ -34,6 +36,18 @@ public abstract class AMapperRegisteredClient {
                 .clientSettings(iMapperClientSettings.toClientSettings(oauth2RegisteredClient.getClientSettings()))
                 .clientAuthenticationMethods(l -> l.addAll(iMapperAuthenticationMethod.toClientAuthenticationMethods(oauth2RegisteredClient.getAuthorizationMethods())))
                 .authorizationGrantTypes(l -> l.addAll(iMapperAuthorizationGrandType.toAuthorizationGrantTypes(oauth2RegisteredClient.getGrantTypes())))
+                .scopes(l -> l.addAll(iMapperScope.toStr(oauth2RegisteredClient.getScopes())))
+                .build();
+    }
+
+    public Oauth2RegisteredClient toOauth2RegisteredClient(RegisteredClient registeredClient) {
+        return Oauth2RegisteredClient.builder()
+                .clientName(registeredClient.getClientName())
+                .clientIdIssuedAt(registeredClient.getClientIdIssuedAt())
+                .clientSettings(iMapperClientSettings.oauth2RegisteredClientAuthorizationClientSetting(registeredClient.getClientSettings()))
+                .authorizationMethods(iMapperAuthenticationMethod.toOauth2AuthorizationMethods(registeredClient.getClientAuthenticationMethods()))
+                .grantTypes(iMapperAuthorizationGrandType.toOauth2AuthorizationGrantType(registeredClient.getAuthorizationGrantTypes()))
+                .scopes(iMapperScope.oauth2Scopes(registeredClient.getScopes()))
                 .build();
     }
 

@@ -3,8 +3,7 @@ package com.onsystem.pantheon.authorizationserver.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
@@ -12,10 +11,13 @@ import java.util.Set;
 
 import static com.onsystem.pantheon.authorizationserver.Constans.SCHEME_AUTHORIZATION;
 
+@Builder
 @Getter
 @Setter
 @Entity
 @Table(schema = SCHEME_AUTHORIZATION, name = "oauth2_registered_client")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Oauth2RegisteredClient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,7 @@
 package com.onsystem.pantheon.authorizationserver.mapper;
 
 import com.onsystem.pantheon.authorizationserver.entities.Oauth2AuthorizationMethod;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -8,6 +9,8 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {})
@@ -21,6 +24,9 @@ public interface IMapperAuthenticationMethod {
                 .map(c -> new ClientAuthenticationMethod(c.getAuthorizationMethodsValue()))
                 .toList();
     }
+
+    @InheritInverseConfiguration
+    Set<Oauth2AuthorizationMethod> toOauth2AuthorizationMethods(Collection<ClientAuthenticationMethod> clientAuthenticationMethods);
 
 
 }

@@ -26,7 +26,7 @@ public class AuthorizationServerSettingsService implements IAuthorizationServerS
 
     private @NotNull AuthorizationServerSettings map(final @NotNull AuthorizationServerSetting authorizationServerSetting) {
         return AuthorizationServerSettings.builder()
-                .issuer(authorizationServerSetting.getIssuer())
+                //.issuer(authorizationServerSetting.getIssuer())
                 .authorizationEndpoint(authorizationServerSetting.getAuthorizationEndpoint())
                 .deviceAuthorizationEndpoint(authorizationServerSetting.getDeviceAuthorizationEndpoint())
                 .deviceVerificationEndpoint(authorizationServerSetting.getDeviceVerificationEndpoint())

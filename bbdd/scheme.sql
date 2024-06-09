@@ -80,7 +80,7 @@ create table "authorization".oauth2_registered_client_authorization_client_setti
     require_proof_key                               bool DEFAULT false,
     require_authorization_consent                   bool DEFAULT true,
     jwt_set_url                                     varchar(1000),
-    token_endpoint_authentication_signing_algorithm varchar(100),
+    token_endpoint_authentication_signing_algorithm signature_algorithm,
     constraint oauth2_registered_client_authorization_client_settings_pk PRIMARY KEY (id)
 );
 

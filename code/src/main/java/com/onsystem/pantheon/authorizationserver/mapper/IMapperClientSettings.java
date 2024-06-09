@@ -4,6 +4,7 @@ import com.onsystem.pantheon.authorizationserver.entities.Oauth2RegisteredClient
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.stereotype.Component;
 
@@ -13,12 +14,20 @@ import org.springframework.stereotype.Component;
 public interface IMapperClientSettings {
 
 
-
-    default ClientSettings toClientSettings(Oauth2RegisteredClientAuthorizationClientSetting oauth2RegisteredClientAuthorizationClientSetting){
+    default ClientSettings toClientSettings(Oauth2RegisteredClientAuthorizationClientSetting oauth2RegisteredClientAuthorizationClientSetting) {
         return ClientSettings.builder()
                 .requireAuthorizationConsent(oauth2RegisteredClientAuthorizationClientSetting.getRequireAuthorizationConsent())
                 .jwkSetUrl(oauth2RegisteredClientAuthorizationClientSetting.getJwtSetUrl())
-                //TODO.tokenEndpointAuthenticationSigningAlgorithm()
+                .tokenEndpointAuthenticationSigningAlgorithm(oauth2RegisteredClientAuthorizationClientSetting.getTokenEndpointAuthenticationSigningAlgorithm())
+                .build();
+    }
+
+
+    default Oauth2RegisteredClientAuthorizationClientSetting oauth2RegisteredClientAuthorizationClientSetting(ClientSettings clientSettings) {
+        return Oauth2RegisteredClientAuthorizationClientSetting.builder()
+                .requireAuthorizationConsent(clientSettings.isRequireAuthorizationConsent())
+                .jwtSetUrl(clientSettings.getJwkSetUrl())
+                .tokenEndpointAuthenticationSigningAlgorithm(SignatureAlgorithm.from(clientSettings.getTokenEndpointAuthenticationSigningAlgorithm().getName()))
                 .build();
     }
 }
