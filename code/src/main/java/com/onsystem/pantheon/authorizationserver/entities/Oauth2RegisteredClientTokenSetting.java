@@ -1,5 +1,7 @@
 package com.onsystem.pantheon.authorizationserver.entities;
 
+import com.onsystem.pantheon.authorizationserver.entities.converter.Oauth2TokenFormatConverter;
+import com.onsystem.pantheon.authorizationserver.entities.converter.SignatureAlgorithmConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -38,10 +40,12 @@ public class Oauth2RegisteredClientTokenSetting {
     @Column(name = "refresh_token_time_to_live", nullable = false)
     private Double refreshTokenTimeToLive;
 
-    @Column(name = "access_token_format", columnDefinition = "oauth2_token_format not null")
+    @Convert(converter = Oauth2TokenFormatConverter.class)
+    @Column(name = "access_token_format", columnDefinition = "varchar(255) not null")
     private OAuth2TokenFormat accessTokenFormat;
 
     @Enumerated(EnumType.STRING)
+    @Convert(converter = SignatureAlgorithmConverter.class)
     @Column(name = "id_token_signature_algorithm", columnDefinition = "signature_algorithm not null")
     private SignatureAlgorithm idTokenSignatureAlgorithm;
 }
