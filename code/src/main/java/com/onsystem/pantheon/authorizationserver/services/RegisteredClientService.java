@@ -26,16 +26,16 @@ public class RegisteredClientService implements RegisteredClientRepository {
 
     @Override
     public RegisteredClient findById(String id) {
-        final Oauth2RegisteredClient oauth2RegisteredClient = oauth2RegisteredRepository.findById(Integer.valueOf(id))
-                .orElseThrow();
-        return aMapperRegisteredClient.toRegisteredClient(oauth2RegisteredClient);
+        return oauth2RegisteredRepository.findById(Integer.valueOf(id))
+                .map(aMapperRegisteredClient::toRegisteredClient)
+                .orElse(null);
     }
 
     @Override
     public RegisteredClient findByClientId(String clientId) {
-        final Oauth2RegisteredClient oauth2RegisteredClient = oauth2RegisteredRepository.findByClientId(clientId)
-                .orElseThrow();
-        return aMapperRegisteredClient.toRegisteredClient(oauth2RegisteredClient);
+        return oauth2RegisteredRepository.findByClientId(clientId)
+                .map(aMapperRegisteredClient::toRegisteredClient)
+                .orElse(null);
     }
 
 
