@@ -9,9 +9,7 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {})
 @ConditionalOnProperty(name = "auth.mock", havingValue = "false")

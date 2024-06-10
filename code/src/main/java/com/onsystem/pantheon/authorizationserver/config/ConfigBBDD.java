@@ -1,10 +1,15 @@
 package com.onsystem.pantheon.authorizationserver.config;
 
 import com.onsystem.pantheon.authorizationserver.ifc.IAuthorizationServerSettingsService;
+import com.onsystem.pantheon.authorizationserver.mapper.AMapperOAuth2Authorization;
 import com.onsystem.pantheon.authorizationserver.mapper.AMapperRegisteredClient;
+import com.onsystem.pantheon.authorizationserver.mapper.IMapperUser;
 import com.onsystem.pantheon.authorizationserver.repositories.AuthorizationSettingsRepository;
+import com.onsystem.pantheon.authorizationserver.repositories.OAuth2AuthorizationRepository;
 import com.onsystem.pantheon.authorizationserver.repositories.Oauth2RegisteredRepository;
+import com.onsystem.pantheon.authorizationserver.repositories.UserRepository;
 import com.onsystem.pantheon.authorizationserver.services.AuthorizationServerSettingsService;
+import com.onsystem.pantheon.authorizationserver.services.OAuth2AuthorizationServiceImpl;
 import com.onsystem.pantheon.authorizationserver.services.RegisteredClientService;
 import com.onsystem.pantheon.authorizationserver.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +17,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 
 @Configuration
@@ -35,7 +42,20 @@ public class ConfigBBDD {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
+    public UserDetailsService userDetailsService(UserRepository userRepository, IMapperUser iMapperUser) {
+        return new UserDetailsServiceImpl(userRepository, iMapperUser);
     }
+
+    @Bean
+    public OAuth2AuthorizationService oAuth2AuthorizationService(OAuth2AuthorizationRepository oAuth2AuthorizationRepository, AMapperOAuth2Authorization aMapperOAuth2Authorization) {
+        return new OAuth2AuthorizationServiceImpl(oAuth2AuthorizationRepository, aMapperOAuth2Authorization);
+    }
+
+    /*
+    @Bean
+    public OAuth2AuthorizationConsentService oAuth2AuthorizationConsentService(){
+
+    }
+    */
+
 }

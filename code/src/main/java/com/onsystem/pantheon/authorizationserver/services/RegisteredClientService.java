@@ -1,5 +1,6 @@
 package com.onsystem.pantheon.authorizationserver.services;
 
+import com.onsystem.pantheon.authorizationserver.entities.Oauth2RegisteredClient;
 import com.onsystem.pantheon.authorizationserver.mapper.AMapperRegisteredClient;
 import com.onsystem.pantheon.authorizationserver.repositories.Oauth2RegisteredRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -18,18 +19,23 @@ public class RegisteredClientService implements RegisteredClientRepository {
 
     @Override
     public void save(RegisteredClient registeredClient) {
-        //TODO validacion safe?
-
+        //TODO cascade etc?
+        final Oauth2RegisteredClient oauth2RegisteredClient = aMapperRegisteredClient.toOauth2RegisteredClient(registeredClient);
+        oauth2RegisteredRepository.save(oauth2RegisteredClient);
     }
 
     @Override
     public RegisteredClient findById(String id) {
-        return null;
+        final Oauth2RegisteredClient oauth2RegisteredClient = oauth2RegisteredRepository.findById(Integer.valueOf(id))
+                .orElseThrow();
+        return aMapperRegisteredClient.toRegisteredClient(oauth2RegisteredClient);
     }
 
     @Override
     public RegisteredClient findByClientId(String clientId) {
-        return null;
+        final Oauth2RegisteredClient oauth2RegisteredClient = oauth2RegisteredRepository.findByClientId(clientId)
+                .orElseThrow();
+        return aMapperRegisteredClient.toRegisteredClient(oauth2RegisteredClient);
     }
 
 
