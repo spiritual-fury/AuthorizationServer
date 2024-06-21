@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 public interface IMapperUser {
 
 
-    @Mapping(target = "enabled", defaultValue = "true")
-    @Mapping(target = "credentialsNonExpired", defaultValue = "false")
-    @Mapping(target = "accountNonLocked", defaultValue = "false")
-    @Mapping(target = "accountNonExpired", defaultValue = "false")
+    @Mapping(target = "enabled", ignore = true, defaultValue = "true")
+    @Mapping(target = "credentialsNonExpired", ignore = true, defaultValue = "true")
+    @Mapping(target = "accountNonLocked", ignore = true, defaultValue = "true")
+    @Mapping(target = "accountNonExpired", ignore = true, defaultValue = "true")
     UserDTO toUserDTO(User user);
 
 }

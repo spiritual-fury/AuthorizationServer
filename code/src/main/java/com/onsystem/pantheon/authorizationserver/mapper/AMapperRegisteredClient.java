@@ -1,5 +1,6 @@
 package com.onsystem.pantheon.authorizationserver.mapper;
 
+import com.onsystem.pantheon.authorizationserver.entities.Oauth2AuthorizationRedirectUris;
 import com.onsystem.pantheon.authorizationserver.entities.Oauth2RegisteredClient;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -25,7 +26,6 @@ public abstract class AMapperRegisteredClient {
     private IMapperScope iMapperScope;
 
 
-
     public RegisteredClient toRegisteredClient(Oauth2RegisteredClient oauth2RegisteredClient) {
         return RegisteredClient.withId(String.valueOf(oauth2RegisteredClient.getId()))
                 .clientId(oauth2RegisteredClient.getUser().getLogin())
@@ -37,6 +37,7 @@ public abstract class AMapperRegisteredClient {
                 .clientAuthenticationMethods(l -> l.addAll(iMapperAuthenticationMethod.toClientAuthenticationMethods(oauth2RegisteredClient.getAuthorizationMethods())))
                 .authorizationGrantTypes(l -> l.addAll(iMapperAuthorizationGrandType.toAuthorizationGrantTypes(oauth2RegisteredClient.getGrantTypes())))
                 .scopes(l -> l.addAll(iMapperScope.toStr(oauth2RegisteredClient.getScopes())))
+                .redirectUris(l -> l.addAll(oauth2RegisteredClient.getRedirectUris().stream().map(a -> a.getId().getUrl()).toList()))
                 .build();
     }
 

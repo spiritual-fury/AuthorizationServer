@@ -5,7 +5,9 @@ import com.onsystem.pantheon.authorizationserver.mapper.AMapperRegisteredClient;
 import com.onsystem.pantheon.authorizationserver.repositories.Oauth2RegisteredRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class RegisteredClientService implements RegisteredClientRepository {
 
     private Oauth2RegisteredRepository oauth2RegisteredRepository;
@@ -19,9 +21,9 @@ public class RegisteredClientService implements RegisteredClientRepository {
 
     @Override
     public void save(RegisteredClient registeredClient) {
-        //TODO cascade etc?
         final Oauth2RegisteredClient oauth2RegisteredClient = aMapperRegisteredClient.toOauth2RegisteredClient(registeredClient);
-        oauth2RegisteredRepository.save(oauth2RegisteredClient);
+        //TODO update
+        //oauth2RegisteredRepository.save(oauth2RegisteredClient);
     }
 
     @Override

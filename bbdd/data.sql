@@ -11,8 +11,16 @@ values (null, '/oauth2/authorize',
         '/connect/register', '/userinfo',
         '/connect/logout');
 
+
+insert into management."authorization".oauth2_registered_client_authorization_client_settings(require_proof_key,
+                                                                                              require_authorization_consent,
+                                                                                              jwt_set_url,
+                                                                                              token_endpoint_authentication_signing_algorithm)
+VALUES (false, true, null, 'PS512');
+
+
 insert into management."authorization".oauth2_authorization_methods
-(authorization_methods_value)
+    (authorization_methods_value)
 values ('client_secret_basic'),
        ('client_secret_post'),
        ('client_secret_jwt'),
@@ -20,7 +28,7 @@ values ('client_secret_basic'),
        ('none');
 
 insert into management."authorization".oauth2_authorization_grant_types
-(authorization_grant_type_value)
+    (authorization_grant_type_value)
 VALUES ('authorization_code'),
        ('refresh_token'),
        ('client_credentials'),
@@ -33,11 +41,13 @@ insert into management."authorization".oauth2_registered_client_authorization_cl
  jwt_set_url, token_endpoint_authentication_signing_algorithm)
 values (true, null, null, null);
 
---insert into management."authorization".oauth2_registered_client_token_settings
---    (authorization_code_time_to_live, access_token_time_to_live,
---     access_token_format, device_code_time_to_live, reuse_refresh_tokens,
---     refresh_token_time_to_live, id_token_signature_algorithm)
---values ();
+insert into management."authorization".oauth2_registered_client_token_settings
+(authorization_code_time_to_live, access_token_time_to_live,
+ access_token_format, device_code_time_to_live, reuse_refresh_tokens,
+ refresh_token_time_to_live, id_token_signature_algorithm)
+values (100000000, 100000000,
+        'self-contained', 100000000, false,
+        100000000, 'RS256');
 
 insert into management.users."user"
 (name, surname, email,
@@ -45,6 +55,15 @@ insert into management.users."user"
  high_date, high_id_user)
 VALUES ('srvauthorizationserver', 'srvauthorizationserver', 'srvauthorizationserver@protom.me',
         'srvauthorizationserver', '{noop}password',
+        CURRENT_TIMESTAMP, null);
+
+
+insert into management.users."user"
+(name, surname, email,
+ login, password,
+ high_date, high_id_user)
+VALUES ('onsystem_name', 'onsystem_surname', 'onsystem@protom.me',
+        'onsystem', '{noop}password',
         CURRENT_TIMESTAMP, null);
 
 insert into management.applications.application
@@ -57,5 +76,22 @@ insert into management."authorization".oauth2_registered_client
 (application_id, user_id,
  client_name, client_settings_id,
  token_settings_id)
-VALUES (1, 1, 'oauthauthorizationserver', 1, null);
+VALUES (1, 1, 'oauthauthorizationserver', 1, 1);
 
+insert into management."authorization".oauth2_registered_client_authorization_grant_types(oauth2_registered_client_id, authorization_grant_types_id)
+select 1, gt.id
+from management."authorization".oauth2_authorization_grant_types gt;
+
+insert into management."authorization".oauth2_registered_client_authorization_methods(oauth2_registered_client_id, authorization_methods_id)
+select 1, id
+from management."authorization".oauth2_authorization_methods;
+
+
+insert into management."authorization".oauth2_scope (name)
+values ('Example'),
+       ('Test'),
+       ('Management');
+
+insert into management."authorization".oauth2_registered_client_scopes
+select 1, id
+from management."authorization".oauth2_scope;

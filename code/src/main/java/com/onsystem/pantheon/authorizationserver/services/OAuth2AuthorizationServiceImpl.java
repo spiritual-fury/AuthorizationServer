@@ -9,10 +9,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.List;
+import java.util.UUID;
 
+@Transactional
 public class OAuth2AuthorizationServiceImpl implements OAuth2AuthorizationService {
 
     private OAuth2AuthorizationRepository oAuth2AuthorizationRepository;
@@ -37,9 +39,9 @@ public class OAuth2AuthorizationServiceImpl implements OAuth2AuthorizationServic
 
     @Override
     public OAuth2Authorization findById(String id) {
-        final Integer numberId = Integer.parseInt(id);
-
-        return oAuth2AuthorizationRepository.findById(numberId)
+        final UUID uuid = UUID.fromString(id);
+        ;
+        return oAuth2AuthorizationRepository.findById(uuid)
                 .map(aMapperOAuth2Authorization::toOAuth2Authorization)
                 .orElse(null);
     }
@@ -51,21 +53,21 @@ public class OAuth2AuthorizationServiceImpl implements OAuth2AuthorizationServic
                 .map(aMapperOAuth2Authorization::toOAuth2Authorization)
                 .orElse(null);
     }
-    private Specification<com.onsystem.pantheon.authorizationserver.entities.OAuth2Authorization> specificationFindByToken(String token, @Nullable OAuth2TokenType tokenType) {
 
+    private Specification<com.onsystem.pantheon.authorizationserver.entities.OAuth2Authorization> specificationFindByToken(String token, @Nullable OAuth2TokenType tokenType) {
         return (root, query, criteriaBuilder) -> {
             if (tokenType == null) {
-                final List<Predicate> predicatesAllTokens = List.of(
-                        criteriaBuilder.or(criteriaBuilder.equal(root.get("authorization_code_value"), token)),
-                        criteriaBuilder.or(criteriaBuilder.equal(root.get("access_token_value"), token)),
-                        criteriaBuilder.or(criteriaBuilder.equal(root.get("oidc_id_token_value"), token)),
-                        criteriaBuilder.or(criteriaBuilder.equal(root.get("refresh_token_value"), token)),
-                        criteriaBuilder.or(criteriaBuilder.equal(root.get("user_code_value"), token)),
-                        criteriaBuilder.or(criteriaBuilder.equal(root.get("device_code_value"), token))
-                );
-                return criteriaBuilder.or(predicatesAllTokens.toArray(Predicate[]::new));
+                final Predicate[] predicatesAllTokens = {
+                        criteriaBuilder.equal(root.get("authorization_code_value"), token),
+                        criteriaBuilder.equal(root.get("access_token_value"), token),
+                        criteriaBuilder.equal(root.get("oidc_id_token_value"), token),
+                        criteriaBuilder.equal(root.get("refresh_token_value"), token),
+                        criteriaBuilder.equal(root.get("user_code_value"), token),
+                        criteriaBuilder.equal(root.get("device_code_value"), token)
+                };
+                return criteriaBuilder.or(predicatesAllTokens);
             } else {
-                return criteriaBuilder.equal(root.get(tokenType.getValue()), token);
+                return criteriaBuilder.equal(root.get(tokenType.getValue().concat("_value")), token);
             }
 
         };

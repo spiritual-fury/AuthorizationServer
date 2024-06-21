@@ -4,10 +4,7 @@ import com.onsystem.pantheon.authorizationserver.entities.OAuth2Authorization;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.OAuth2DeviceCode;
-import org.springframework.security.oauth2.core.OAuth2RefreshToken;
-import org.springframework.security.oauth2.core.OAuth2UserCode;
+import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationCode;
@@ -18,6 +15,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @ConditionalOnProperty(name = "auth.mock", havingValue = "false")
 @Component
@@ -29,10 +27,10 @@ public abstract class AMapperOAuth2Authorization {
             org.springframework.security.oauth2.server.authorization.OAuth2Authorization authorization
     ) {
         final OAuth2Authorization oAuth2Authorization = new OAuth2Authorization();
-        oAuth2Authorization.setId(Integer.parseInt(authorization.getId()));
+        oAuth2Authorization.setId(UUID.fromString(authorization.getId()));
         oAuth2Authorization.setRegisteredClientId(Integer.parseInt(authorization.getRegisteredClientId()));
         oAuth2Authorization.setPrincipalName(authorization.getPrincipalName());
-        oAuth2Authorization.setAuthorizationGrantType(authorization.getAuthorizationGrantType());
+        oAuth2Authorization.setAuthorizationGrantType(authorization.getAuthorizationGrantType().getValue());
         oAuth2Authorization.setAuthorizedScopes(oAuth2Authorization.getAuthorizedScopes());
         oAuth2Authorization.setAttributes(authorization.getAttributes());
 
@@ -111,7 +109,7 @@ public abstract class AMapperOAuth2Authorization {
         final org.springframework.security.oauth2.server.authorization.OAuth2Authorization.Builder authorizationBuilder = org.springframework.security.oauth2.server.authorization.OAuth2Authorization.withRegisteredClient(registeredClient)
                 .id(String.valueOf(oAuth2Authorization.getId()))
                 .principalName(oAuth2Authorization.getPrincipalName())
-                .authorizationGrantType(oAuth2Authorization.getAuthorizationGrantType())
+                .authorizationGrantType(new AuthorizationGrantType(oAuth2Authorization.getAuthorizationGrantType()))
                 .authorizedScopes(oAuth2Authorization.getAuthorizedScopes())
                 .attributes(map -> map.putAll(oAuth2Authorization.getAttributes()));
 

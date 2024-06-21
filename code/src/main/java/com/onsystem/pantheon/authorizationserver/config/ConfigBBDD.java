@@ -3,11 +3,9 @@ package com.onsystem.pantheon.authorizationserver.config;
 import com.onsystem.pantheon.authorizationserver.ifc.IAuthorizationServerSettingsService;
 import com.onsystem.pantheon.authorizationserver.mapper.AMapperOAuth2Authorization;
 import com.onsystem.pantheon.authorizationserver.mapper.AMapperRegisteredClient;
+import com.onsystem.pantheon.authorizationserver.mapper.IMapperOAuthAuthorizationConsent;
 import com.onsystem.pantheon.authorizationserver.mapper.IMapperUser;
-import com.onsystem.pantheon.authorizationserver.repositories.AuthorizationSettingsRepository;
-import com.onsystem.pantheon.authorizationserver.repositories.OAuth2AuthorizationRepository;
-import com.onsystem.pantheon.authorizationserver.repositories.Oauth2RegisteredRepository;
-import com.onsystem.pantheon.authorizationserver.repositories.UserRepository;
+import com.onsystem.pantheon.authorizationserver.repositories.*;
 import com.onsystem.pantheon.authorizationserver.services.AuthorizationServerSettingsService;
 import com.onsystem.pantheon.authorizationserver.services.OAuth2AuthorizationServiceImpl;
 import com.onsystem.pantheon.authorizationserver.services.RegisteredClientService;
@@ -51,11 +49,13 @@ public class ConfigBBDD {
         return new OAuth2AuthorizationServiceImpl(oAuth2AuthorizationRepository, aMapperOAuth2Authorization);
     }
 
-    /*
-    @Bean
-    public OAuth2AuthorizationConsentService oAuth2AuthorizationConsentService(){
 
+    @Bean
+    public OAuth2AuthorizationConsentService oAuth2AuthorizationConsentService(OAuth2AuthorizationConsentRepository oAuth2AuthorizationConsentRepository, IMapperOAuthAuthorizationConsent iMapperOAuthAuthorizationConsent) {
+        return new com.onsystem.pantheon.authorizationserver.services.OAuth2AuthorizationConsentService(
+                oAuth2AuthorizationConsentRepository, iMapperOAuthAuthorizationConsent
+        );
     }
-    */
+
 
 }

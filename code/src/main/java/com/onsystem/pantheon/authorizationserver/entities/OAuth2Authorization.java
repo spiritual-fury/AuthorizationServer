@@ -7,12 +7,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.Type;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 
 import java.time.Instant;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.onsystem.pantheon.authorizationserver.Constans.SCHEME_AUTHORIZATION;
 
@@ -24,12 +26,11 @@ import static com.onsystem.pantheon.authorizationserver.Constans.SCHEME_AUTHORIZ
 @NoArgsConstructor
 @AllArgsConstructor
 public class OAuth2Authorization {
-    //TODO revise metadata
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private UUID id;
 
     @NotNull
     @Size(max = 100)
@@ -43,8 +44,8 @@ public class OAuth2Authorization {
 
     @NotNull
     @Size(max = 100)
-    @Column(name = "authorization_grantype", nullable = false)
-    private AuthorizationGrantType authorizationGrantType;
+    @Column(name = "authorization_grant_type", nullable = false)
+    private String authorizationGrantType; //integer reference?
 
     @Size(max = 1000)
     @Column(name = "authorized_scopes")
