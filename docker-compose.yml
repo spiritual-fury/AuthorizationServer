@@ -9,3 +9,4 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - ./bbdd/scheme.sql:/docker-entrypoint-initdb.d/scheme.sql
+      - ./bbdd/scheme.sql:/docker-entrypoint-initdb.d/data.sql

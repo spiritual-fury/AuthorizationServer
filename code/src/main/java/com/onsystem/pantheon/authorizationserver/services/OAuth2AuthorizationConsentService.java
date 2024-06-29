@@ -7,6 +7,8 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.UUID;
+
 @Transactional
 public class OAuth2AuthorizationConsentService implements org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService {
 
@@ -39,7 +41,7 @@ public class OAuth2AuthorizationConsentService implements org.springframework.se
 
         final OAuth2AuthorizationConsentId consentId = OAuth2AuthorizationConsentId
                 .builder()
-                .registeredClientId(Integer.parseInt(registeredClientId))
+                .registeredClientId(UUID.fromString(registeredClientId))
                 .principalName(principalName)
                 .build();
         return oAuth2AuthorizationConsentRepository.findById(consentId)

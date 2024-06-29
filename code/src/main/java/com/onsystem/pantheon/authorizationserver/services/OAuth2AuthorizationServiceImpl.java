@@ -40,7 +40,7 @@ public class OAuth2AuthorizationServiceImpl implements OAuth2AuthorizationServic
     @Override
     public OAuth2Authorization findById(String id) {
         final UUID uuid = UUID.fromString(id);
-        ;
+
         return oAuth2AuthorizationRepository.findById(uuid)
                 .map(aMapperOAuth2Authorization::toOAuth2Authorization)
                 .orElse(null);

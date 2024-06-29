@@ -1,14 +1,12 @@
 package com.onsystem.pantheon.authorizationserver.entities;
 
-import com.onsystem.pantheon.authorizationserver.entities.converter.OAuth2AccessTokenTypeConverter;
 import com.onsystem.pantheon.authorizationserver.entities.converter.MapStrObjectConverter;
+import com.onsystem.pantheon.authorizationserver.entities.converter.OAuth2AccessTokenTypeConverter;
 import com.onsystem.pantheon.authorizationserver.entities.converter.SetStrConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.annotations.Type;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 
 import java.time.Instant;
@@ -27,7 +25,6 @@ import static com.onsystem.pantheon.authorizationserver.Constans.SCHEME_AUTHORIZ
 @AllArgsConstructor
 public class OAuth2Authorization {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
@@ -35,7 +32,7 @@ public class OAuth2Authorization {
     @NotNull
     @Size(max = 100)
     @Column(name = "registered_client_id", nullable = false)
-    private Integer registeredClientId;
+    private UUID registeredClientId;
 
     @NotNull
     @Size(max = 100)

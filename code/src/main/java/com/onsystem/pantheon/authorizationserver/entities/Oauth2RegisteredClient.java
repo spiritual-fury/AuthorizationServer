@@ -8,6 +8,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.onsystem.pantheon.authorizationserver.Constans.SCHEME_AUTHORIZATION;
 
@@ -20,9 +21,9 @@ import static com.onsystem.pantheon.authorizationserver.Constans.SCHEME_AUTHORIZ
 @AllArgsConstructor
 public class Oauth2RegisteredClient {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private UUID id;
 
     @NotNull
     @ManyToOne
@@ -43,7 +44,6 @@ public class Oauth2RegisteredClient {
     @NotNull
     @Column(name = "client_name", nullable = false, length = 200)
     private String clientName;
-
 
     @ManyToOne
     @JoinColumn(name = "client_settings_id")

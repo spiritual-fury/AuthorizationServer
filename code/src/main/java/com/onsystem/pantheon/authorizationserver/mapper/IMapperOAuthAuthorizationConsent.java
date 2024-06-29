@@ -7,6 +7,8 @@ import org.mapstruct.MappingConstants;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @ConditionalOnProperty(name = "auth.mock", havingValue = "false")
 @Component
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
@@ -16,7 +18,7 @@ public interface IMapperOAuthAuthorizationConsent {
         final OAuth2AuthorizationConsent oauth2AuthorizationConsent = new OAuth2AuthorizationConsent();
         oauth2AuthorizationConsent.setId(
                 OAuth2AuthorizationConsentId.builder()
-                        .registeredClientId(Integer.parseInt(authorizationConsent.getRegisteredClientId()))
+                        .registeredClientId(UUID.fromString(authorizationConsent.getRegisteredClientId()))
                         .principalName(authorizationConsent.getPrincipalName())
                         .build()
         );

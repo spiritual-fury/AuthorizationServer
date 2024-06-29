@@ -10,5 +10,4 @@ public class Constans {
     public static final String SCHEME_USER = "users";
     public static final String SCHEME_AUTHORIZATION = "\"authorization\"";
 
-
 }

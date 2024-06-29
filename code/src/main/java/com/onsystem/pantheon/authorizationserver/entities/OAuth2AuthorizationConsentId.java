@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @Embeddable
@@ -16,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class OAuth2AuthorizationConsentId {
     @NotNull
     @Column(name = "registered_client_id", nullable = false)
-    private Integer registeredClientId;
+    private UUID registeredClientId;
     @NotNull
     @Column(name = "principal_name", nullable = false)
     private String principalName;

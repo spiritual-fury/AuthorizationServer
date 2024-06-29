@@ -28,7 +28,7 @@ public abstract class AMapperOAuth2Authorization {
     ) {
         final OAuth2Authorization oAuth2Authorization = new OAuth2Authorization();
         oAuth2Authorization.setId(UUID.fromString(authorization.getId()));
-        oAuth2Authorization.setRegisteredClientId(Integer.parseInt(authorization.getRegisteredClientId()));
+        oAuth2Authorization.setRegisteredClientId(UUID.fromString(authorization.getRegisteredClientId()));
         oAuth2Authorization.setPrincipalName(authorization.getPrincipalName());
         oAuth2Authorization.setAuthorizationGrantType(authorization.getAuthorizationGrantType().getValue());
         oAuth2Authorization.setAuthorizedScopes(oAuth2Authorization.getAuthorizedScopes());
