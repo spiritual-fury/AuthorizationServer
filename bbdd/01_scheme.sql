@@ -2,7 +2,7 @@
 -- Please log an issue at https://redmine.postgresql.org/projects/pgadmin4/issues/new if you find any bugs, including reproduction steps.
 
 CREATE
-EXTENSION IF NOT EXISTS "uuid-ossp";
+    EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE DATABASE management;
 \c management;
@@ -15,74 +15,53 @@ CREATE SCHEMA IF NOT EXISTS enterprise;
 CREATE TABLE IF NOT EXISTS users."user"
 (
     id_user
-    SERIAL,
+                   SERIAL,
     name
-    character
-    varying
-(
-    50
-) COLLATE pg_catalog."default" NOT NULL,
-    surname character varying
-(
-    50
-) COLLATE pg_catalog."default" NOT NULL,
-    email character varying
-(
-    100
-) COLLATE pg_catalog."default" NOT NULL UNIQUE,
-    login character varying
-(
-    30
-) COLLATE pg_catalog."default" NOT NULL UNIQUE,
-    password character varying
-(
-    255
-) COLLATE pg_catalog."default" NOT NULL,
-    high_date timestamp NOT NULL,
-    high_id_user integer references users.user
-(
-    id_user
-),
-    delete_date timestamp,
+                   character
+                       varying(50) COLLATE pg_catalog."default"        NOT NULL,
+    surname        character varying(50) COLLATE pg_catalog."default"  NOT NULL,
+    email          character varying(100) COLLATE pg_catalog."default" NOT NULL UNIQUE,
+    login          character varying(30) COLLATE pg_catalog."default"  NOT NULL UNIQUE,
+    password       character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    high_date      timestamp                                           NOT NULL,
+    high_id_user   integer references users.user
+        (
+         id_user
+            ),
+    delete_date    timestamp,
     delete_id_user integer references users.user
-(
-    id_user
-),
+        (
+         id_user
+            ),
     CONSTRAINT user_pk PRIMARY KEY
-(
-    id_user
-)
-    );
+        (
+         id_user
+            )
+);
 
 CREATE TABLE IF NOT EXISTS applications.application
 (
     id_application
-    SERIAL,
+                   SERIAL,
     name
-    character
-    varying
-(
-    100
-) COLLATE pg_catalog."default" NOT NULL,
-    description character varying
-(
-    255
-) COLLATE pg_catalog."default",
-    high_date timestamp NOT NULL,
-    high_id_user integer NOT NULL references users.user
-(
-    id_user
-),
-    delete_date timestamp,
+                   character
+                       varying(100) COLLATE pg_catalog."default" NOT NULL,
+    description    character varying(255) COLLATE pg_catalog."default",
+    high_date      timestamp                                     NOT NULL,
+    high_id_user   integer                                       NOT NULL references users.user
+        (
+         id_user
+            ),
+    delete_date    timestamp,
     delete_id_user integer references users.user
-(
-    id_user
-),
+        (
+         id_user
+            ),
     CONSTRAINT applications_pk PRIMARY KEY
-(
-    id_application
-)
-    );
+        (
+         id_application
+            )
+);
 
 
 --SCHEME AUTHORIZATION

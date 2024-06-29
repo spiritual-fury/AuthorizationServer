@@ -8,5 +8,5 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
-      - ./bbdd/scheme.sql:/docker-entrypoint-initdb.d/scheme.sql
-      - ./bbdd/scheme.sql:/docker-entrypoint-initdb.d/data.sql
+      - ./bbdd/01_scheme.sql:/docker-entrypoint-initdb.d/01_scheme.sql
+      - ./bbdd/02_data.sql:/docker-entrypoint-initdb.d/02_data.sql
